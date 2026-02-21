@@ -12,6 +12,16 @@ const configuredBaseUrl =
 const apiBaseUrl = configuredBaseUrl.replace(/\/+$/, "");
 let currentPrompt = "";
 let backendOverlayImages = [];
+generateButton.disabled = true;
+
+function toAbsoluteOverlayUrl(url) {
+  if (!url) return "";
+  if (/^https?:\/\//i.test(url)) {
+    return url;
+  }
+  const normalizedPath = url.startsWith("/") ? url : `/${url}`;
+  return `${apiBaseUrl}${normalizedPath}`;
+}
 
 async function loadReferenceImages() {
   const response = await fetch(`${apiBaseUrl}/api/reference-images`);
@@ -20,7 +30,9 @@ async function loadReferenceImages() {
     throw new Error(data.error || "Failed to load backend images.");
   }
 
-  backendOverlayImages = (data.images || []).map((item) => item.url).filter(Boolean);
+  backendOverlayImages = (data.images || [])
+    .map((item) => toAbsoluteOverlayUrl(item.url))
+    .filter(Boolean);
 
   if (!backendOverlayImages.length) {
     status.textContent =
@@ -141,6 +153,14 @@ form.addEventListener("submit", async (event) => {
     return;
   }
 
+  if (!backendOverlayImages.length) {
+    try {
+      await loadReferenceImages();
+    } catch {
+      // Keep existing error/status handling below.
+    }
+  }
+
   const referenceImageUrl = pickRandomOverlayUrl();
   if (!referenceImageUrl) {
     status.textContent = "No backend overlay image available.";
@@ -186,4 +206,5 @@ form.addEventListener("submit", async (event) => {
 
 loadReferenceImages().catch((error) => {
   status.textContent = error.message || "Failed to load backend images.";
+  generateButton.disabled = true;
 });
