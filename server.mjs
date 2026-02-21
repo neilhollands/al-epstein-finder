@@ -3,6 +3,7 @@ import express from "express";
 import fs from "node:fs/promises";
 import path from "node:path";
 import OpenAI from "openai";
+import cors from "cors";
 
 dotenv.config();
 
