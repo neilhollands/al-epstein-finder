@@ -12,7 +12,18 @@ const configuredBaseUrl =
 const apiBaseUrl = configuredBaseUrl.replace(/\/+$/, "");
 let currentPrompt = "";
 let backendOverlayImages = [];
-generateButton.disabled = true;
+
+async function fetchJsonWithTimeout(url, timeoutMs = 15000) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const response = await fetch(url, { signal: controller.signal });
+    const data = await response.json();
+    return { response, data };
+  } finally {
+    clearTimeout(timeout);
+  }
+}
 
 function toAbsoluteOverlayUrl(url) {
   if (!url) return "";
@@ -24,8 +35,7 @@ function toAbsoluteOverlayUrl(url) {
 }
 
 async function loadReferenceImages() {
-  const response = await fetch(`${apiBaseUrl}/api/reference-images`);
-  const data = await response.json();
+  const { response, data } = await fetchJsonWithTimeout(`${apiBaseUrl}/api/reference-images`);
   if (!response.ok) {
     throw new Error(data.error || "Failed to load backend images.");
   }
@@ -205,6 +215,7 @@ form.addEventListener("submit", async (event) => {
 });
 
 loadReferenceImages().catch((error) => {
-  status.textContent = error.message || "Failed to load backend images.";
-  generateButton.disabled = true;
+  status.textContent =
+    "Backend is waking up. Click Generate image to retry loading overlay images.";
+  generateButton.disabled = false;
 });
