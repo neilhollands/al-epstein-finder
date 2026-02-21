@@ -1,3 +1,3 @@
 window.APP_CONFIG = {
-  apiBaseUrl: "https://YOUR-RENDER-URL.onrender.com"
+  apiBaseUrl: "https://al-epstein-finder.onrender.com"
 };
