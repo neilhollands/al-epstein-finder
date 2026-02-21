@@ -1,0 +1,151 @@
+:root {
+  --bg: #090b10;
+  --text: #f4efe1;
+  --card: #121722;
+  --border: #2d394d;
+  --accent: #d9382a;
+  --accent-strong: #ff5b45;
+  --gold: #f7c654;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Outfit", "Segoe UI", sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at 18% 10%, #2a2338 0%, transparent 34%),
+    radial-gradient(circle at 82% 0%, #3a1818 0%, transparent 30%),
+    linear-gradient(165deg, #080b11 0%, #111522 48%, #080b11 100%);
+}
+
+.app {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 32px 16px 56px;
+  display: grid;
+  gap: 16px;
+}
+
+h1 {
+  margin: 0;
+  font-family: "Bangers", cursive;
+  font-size: clamp(2.6rem, 6.5vw, 4.2rem);
+  line-height: 0.95;
+  letter-spacing: 0.06em;
+  color: var(--gold);
+  text-shadow: 0 4px 0 #261b00;
+  text-align: center;
+}
+
+.subtitle {
+  margin: 0;
+}
+
+.card {
+  display: grid;
+  gap: 12px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.35);
+}
+
+textarea {
+  width: 100%;
+  font: inherit;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px;
+  resize: vertical;
+  color: var(--text);
+  background: #0b1018;
+}
+
+input[type="file"] {
+  font: inherit;
+}
+
+select {
+  width: fit-content;
+  font: inherit;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 8px 10px;
+  color: var(--text);
+  background: #0b1018;
+}
+
+.inline-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+button {
+  width: fit-content;
+  border: 0;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font: inherit;
+  color: #fff5e2;
+  background: var(--accent);
+  cursor: pointer;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+}
+
+button.secondary {
+  background: #474f61;
+}
+
+button.secondary:hover:not(:disabled) {
+  background: #59647b;
+}
+
+button:disabled {
+  opacity: 0.65;
+  cursor: progress;
+}
+
+button:hover:not(:disabled) {
+  background: var(--accent-strong);
+}
+
+.output p {
+  margin: 0;
+}
+
+#after-message {
+  text-align: center;
+  font-family: "Bangers", cursive;
+  font-size: clamp(1.6rem, 3.2vw, 2.6rem);
+  line-height: 1.05;
+  color: #ffd978;
+  text-shadow: 0 3px 0 #312100;
+}
+
+.button-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+#result-image {
+  width: 1024px;
+  height: 1024px;
+  max-width: 100%;
+  min-height: 280px;
+  border: 1px dashed #5f6b83;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+@media (max-width: 640px) {
+  .app {
+    padding-top: 20px;
+  }
+}

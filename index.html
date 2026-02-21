@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Search The Epstein Files For Pictures Of Al</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bangers&family=Outfit:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <h1>SEARCH THE EPSTEIN FILES<br />FOR PICTURES OF AL</h1>
+
+      <form id="image-form" class="card">
+        <label for="prompt">Describe a seedy environment</label>
+        <textarea
+          id="prompt"
+          name="prompt"
+          rows="4"
+          placeholder="Example: An island paradise full of psychopathic rich people and children's toys"
+          required
+        ></textarea>
+
+        <div class="button-row">
+          <button id="generate-btn" type="submit">Generate image</button>
+          <button id="download-btn" type="button" class="secondary" disabled>
+            Download image
+          </button>
+        </div>
+      </form>
+
+      <section class="card output">
+        <p id="status" aria-live="polite">Ready.</p>
+        <img
+          id="result-image"
+          src="./assets/Startup.png"
+          alt="Generated image preview"
+        />
+        <p id="after-message" hidden>WE NEED TO WARN AL ABOUT THIS NOW!<br />Help save Al's reputation!</p>
+      </section>
+    </main>
+
+    <script src="./src/config.js"></script>
+    <script type="module" src="./src/app.js"></script>
+  </body>
+</html>
