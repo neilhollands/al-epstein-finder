@@ -19,16 +19,26 @@ const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+app.use(
+  cors(),
+);
 app.use(express.json({ limit: "1mb" }));
 app.use(express.static("."));
-app.use(
-  cors({
-    origin: "https://neilhollands.github.io",
-  })
-);
 
 const referenceImagesDir = path.join(process.cwd(), "assets", "neil");
 const supportedExtensions = new Set([".png", ".jpg", ".jpeg", ".webp"]);
+
+async function remoteImageUrlToDataUrl(imageUrl) {
+  const response = await fetch(imageUrl);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch generated image URL (${response.status}).`);
+  }
+
+  const contentType = response.headers.get("content-type") || "image/png";
+  const arrayBuffer = await response.arrayBuffer();
+  const base64 = Buffer.from(arrayBuffer).toString("base64");
+  return `data:${contentType};base64,${base64}`;
+}
 
 app.get("/api/reference-images", async (_req, res) => {
   try {
@@ -78,7 +88,8 @@ app.post("/api/generate-image", async (req, res) => {
     }
 
     if (imageData.url) {
-      return res.json({ imageUrl: imageData.url });
+      const imageUrl = await remoteImageUrlToDataUrl(imageData.url);
+      return res.json({ imageUrl });
     }
 
     if (imageData.b64_json) {

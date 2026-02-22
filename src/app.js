@@ -64,9 +64,16 @@ function pickRandomOverlayUrl() {
   return backendOverlayImages[index];
 }
 
+function isRemoteHttpUrl(src) {
+  return /^https?:\/\//i.test(src);
+}
+
 function loadImage(src) {
   return new Promise((resolve, reject) => {
     const image = new Image();
+    if (isRemoteHttpUrl(src)) {
+      image.crossOrigin = "anonymous";
+    }
     image.onload = () => resolve(image);
     image.onerror = () => reject(new Error("Failed to load image."));
     image.src = src;
