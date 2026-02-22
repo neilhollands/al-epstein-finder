@@ -21,6 +21,11 @@ const client = new OpenAI({
 
 app.use(express.json({ limit: "1mb" }));
 app.use(express.static("."));
+app.use(
+  cors({
+    origin: "https://neilhollands.github.io",
+  })
+);
 
 const referenceImagesDir = path.join(process.cwd(), "assets", "neil");
 const supportedExtensions = new Set([".png", ".jpg", ".jpeg", ".webp"]);
